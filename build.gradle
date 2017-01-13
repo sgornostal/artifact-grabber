@@ -1,0 +1,39 @@
+group 'org.sgornostal'
+version '1.0'
+
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    archiveName = "artifact-grabber.jar"
+    from {
+        configurations.runtime.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes 'Main-Class': 'org.sgornostal.ArtifactGrabber'
+    }
+
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11',
+            'commons-io:commons-io:2.5',
+            'org.apache.maven:maven-aether-provider:3.3.9',
+            'org.eclipse.aether:aether-impl:1.1.0',
+            'org.eclipse.aether:aether-transport-http:1.1.0',
+            'org.eclipse.aether:aether-transport-file:1.1.0',
+            'org.eclipse.aether:aether-connector-basic:1.1.0',
+            'commons-cli:commons-cli:1.2',
+            'org.slf4j:jcl-over-slf4j:1.7.22',
+            'org.slf4j:slf4j-api:1.7.22',
+            'org.slf4j:slf4j-simple:1.7.22'
+}
+
